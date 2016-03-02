@@ -56,7 +56,7 @@ class MazeRunner(object):
 
     def found(self):
         return self.__x == self.__finish[0] and self.__y == self.__finish[1]
-
+"""
 maze_runner = MazeRunner([
                             [0,1,0,0,0],
                             [0,1,1,1,1],
@@ -78,7 +78,7 @@ maze_runner = MazeRunner([
         [0,0,0,1,1,1,1,0],
     ], (7,7), (0,0))
 
-
+"""
 maze_runner = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [1,0,1,1,1,0,1,1,1,0,1],
@@ -157,6 +157,10 @@ def maze_controller():
                 maze_runner.turn_right()
             elif check_right_side():
                 print 'i turned right'
+                maze_runner.turn_left()
+            else:
+                print 'i turned around'
+                maze_runner.turn_left()
                 maze_runner.turn_left()
     print 'FOUND IT'
 maze_controller()
