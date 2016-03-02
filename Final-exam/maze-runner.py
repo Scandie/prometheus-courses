@@ -30,7 +30,8 @@ class MazeRunner(object):
             return False
         self.__x = x
         self.__y = y
-        # print_maze(self.__maze, self.__x, self.__y)
+        print 'i am going...'
+        print_maze(self.__maze, self.__x, self.__y)
         return True
 
     def turn_left(self):
@@ -55,3 +56,48 @@ class MazeRunner(object):
 
     def found(self):
         return self.__x == self.__finish[0] and self.__y == self.__finish[1]
+
+maze_runner = MazeRunner([
+                            [0,1,0,0,0],
+                            [0,1,1,1,1],
+                            [0,0,0,0,0],
+                            [1,1,1,1,0],
+                            [0,0,0,1,0],
+                         ], (0,0), (4,4))
+
+
+def maze_controller():
+
+    def check_left_side():
+        maze_runner.turn_right()
+        if maze_runner.go():
+            maze_runner.turn_left()
+            print 'i can go left'
+            return True
+        else:
+            maze_runner.turn_left()
+            return False
+
+    def check_right_side():
+        maze_runner.turn_left()
+        if maze_runner.go():
+            maze_runner.turn_right()
+            print 'i can go right'
+            return True
+        else:
+            maze_runner.turn_right()
+            return False
+
+    while not maze_runner.found():
+        while maze_runner.go():
+            maze_runner.go()
+        while not(maze_runner.go()):
+            print 'i am stuck'
+            if check_left_side():
+                print 'i turned left'
+                maze_runner.turn_right()
+            elif check_right_side():
+                print 'i turned right'
+                maze_runner.turn_left()
+    print 'FOUND IT'
+maze_controller()
