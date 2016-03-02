@@ -65,7 +65,7 @@ maze_runner = MazeRunner([
                             [0,0,0,1,0],
                          ], (0,0), (4,4))
 
-"""
+
 
 maze_runner = MazeRunner([
         [0,0,0,0,0,0,0,1],
@@ -93,7 +93,7 @@ maze_runner = MazeRunner([
         [1,0,1,0,0,0,0,0,1,0,1],
     ], (0,5), (10,5))
 
-
+"""
 maze_runner = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [1,0,1,1,1,0,1,1,1,0,1],
@@ -149,6 +149,10 @@ def maze_controller():
 
     while not maze_runner.found():
         while maze_runner.go():
+            if check_right_side():
+                maze_runner.turn_right()
+            if check_left_side():
+                maze_runner.turn_left()
             maze_runner.go()
         while not(maze_runner.go()):
             print 'i am stuck'
