@@ -78,7 +78,7 @@ maze_runner = MazeRunner([
         [0,0,0,1,1,1,1,0],
     ], (7,7), (0,0))
 
-"""
+
 maze_runner = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [1,0,1,1,1,0,1,1,1,0,1],
@@ -92,8 +92,8 @@ maze_runner = MazeRunner([
         [1,0,1,0,1,1,1,0,1,0,1],
         [1,0,1,0,0,0,0,0,1,0,1],
     ], (0,5), (10,5))
-
 """
+
 maze_runner = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [1,0,1,1,1,0,1,1,1,0,1],
@@ -108,7 +108,7 @@ maze_runner = MazeRunner([
         [1,0,1,0,0,0,0,0,1,0,1],
     ], (0,5), (4,5))
 
-
+"""
 
 maze_runner = MazeRunner([
         [0,0,0,1,1,0,1,1,0,0,0],
@@ -149,6 +149,8 @@ def maze_controller():
 
     while not maze_runner.found():
         while maze_runner.go():
+            if maze_runner.found():
+                return 'FOUND IT'
             if check_right_side():
                 maze_runner.turn_right()
             if check_left_side():
@@ -166,5 +168,5 @@ def maze_controller():
                 print 'i turned around'
                 maze_runner.turn_left()
                 maze_runner.turn_left()
-    print 'FOUND IT'
-maze_controller()
+    return 'FOUND IT'
+print maze_controller()
