@@ -30,7 +30,7 @@ class MazeRunner(object):
             return False
         self.__x = x
         self.__y = y
-        print 'i am going...'
+        #print 'i am going...'
         print_maze(self.__maze, self.__x, self.__y)
         return True
 
@@ -56,8 +56,8 @@ class MazeRunner(object):
 
     def found(self):
         return self.__x == self.__finish[0] and self.__y == self.__finish[1]
-"""
-maze_runner = MazeRunner([
+
+maze1 = MazeRunner([
                             [0,1,0,0,0],
                             [0,1,1,1,1],
                             [0,0,0,0,0],
@@ -66,8 +66,7 @@ maze_runner = MazeRunner([
                          ], (0,0), (4,4))
 
 
-
-maze_runner = MazeRunner([
+maze2 = MazeRunner([
         [0,0,0,0,0,0,0,1],
         [0,1,1,1,1,1,1,1],
         [0,0,0,0,0,0,0,0],
@@ -79,7 +78,7 @@ maze_runner = MazeRunner([
     ], (7,7), (0,0))
 
 
-maze_runner = MazeRunner([
+maze3 = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [1,0,1,1,1,0,1,1,1,0,1],
         [1,0,1,0,0,0,0,0,1,0,1],
@@ -92,9 +91,9 @@ maze_runner = MazeRunner([
         [1,0,1,0,1,1,1,0,1,0,1],
         [1,0,1,0,0,0,0,0,1,0,1],
     ], (0,5), (10,5))
-"""
 
-maze_runner = MazeRunner([
+
+maze4 = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [1,0,1,1,1,0,1,1,1,0,1],
         [1,0,1,0,0,0,0,0,1,0,1],
@@ -108,9 +107,8 @@ maze_runner = MazeRunner([
         [1,0,1,0,0,0,0,0,1,0,1],
     ], (0,5), (4,5))
 
-"""
 
-maze_runner = MazeRunner([
+maze5 = MazeRunner([
         [0,0,0,1,1,0,1,1,0,0,0],
         [0,1,0,0,0,0,0,0,0,1,0],
         [0,1,0,1,1,1,1,1,0,1,0],
@@ -123,50 +121,55 @@ maze_runner = MazeRunner([
         [0,0,0,0,0,0,0,0,0,0,0],
         [0,0,1,0,1,0,1,0,1,0,0],
     ], (0,5), (4,5))
-"""
 
-def maze_controller():
+
+def maze_controller(maze):
 
     def check_left_side():
-        maze_runner.turn_right()
-        if maze_runner.go():
-            maze_runner.turn_left()
-            print 'i can go left'
+        maze.turn_right()
+        if maze.go():
+            maze.turn_left()
+            #print 'i can go left'
             return True
         else:
-            maze_runner.turn_left()
+            maze.turn_left()
             return False
 
     def check_right_side():
-        maze_runner.turn_left()
-        if maze_runner.go():
-            maze_runner.turn_right()
-            print 'i can go right'
+        maze.turn_left()
+        if maze.go():
+            maze.turn_right()
+            #print 'i can go right'
             return True
         else:
-            maze_runner.turn_right()
+            maze.turn_right()
             return False
 
-    while not maze_runner.found():
-        while maze_runner.go():
-            if maze_runner.found():
-                return 'FOUND IT'
+    while not maze.found():
+        while maze.go():
+            if maze.found():
+                return maze.found()
             if check_right_side():
-                maze_runner.turn_right()
+                maze.turn_right()
             if check_left_side():
-                maze_runner.turn_left()
-            maze_runner.go()
-        while not(maze_runner.go()):
-            print 'i am stuck'
+                maze.turn_left()
+            maze.go()
+        while not(maze.go()):
+            #print 'i am stuck'
             if check_left_side():
-                print 'i turned left'
-                maze_runner.turn_right()
+                #print 'i turned left'
+                maze.turn_right()
             elif check_right_side():
-                print 'i turned right'
-                maze_runner.turn_left()
+                #print 'i turned right'
+                maze.turn_left()
             else:
-                print 'i turned around'
-                maze_runner.turn_left()
-                maze_runner.turn_left()
-    return 'FOUND IT'
-print maze_controller()
+                #print 'i turned around'
+                maze.turn_left()
+                maze.turn_left()
+    return maze.found()
+print maze_controller(maze1), 1
+print maze_controller(maze2), 2
+print maze_controller(maze3), 3
+print maze_controller(maze4), 4
+#print maze_controller(maze5), 5
+
