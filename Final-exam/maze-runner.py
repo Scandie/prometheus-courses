@@ -30,7 +30,7 @@ class MazeRunner(object):
             return False
         self.__x = x
         self.__y = y
-        # print 'i am going...'
+        print 'i am going in that direction'
         print_maze(self.__maze, self.__x, self.__y)
         return True
 
@@ -121,23 +121,29 @@ maze5 = MazeRunner([
 
 def maze_controller(maze):
 
+    # even if you only check side or ability to go, your runner do that in maze
+
     def check_left_side():
         maze.turn_right()
+        print 'checked left side'
         if maze.go():
-            maze.turn_left()
-            # print 'i can go left'
+            #maze.turn_left()
+            #print 'i can go left'
             return True
         else:
+            print "i can't go left"
             maze.turn_left()
             return False
 
     def check_right_side():
         maze.turn_left()
+        print 'checked right side'
         if maze.go():
-            maze.turn_right()
-            # print 'i can go right'
+            #maze.turn_right()
+            #print 'i can go right'
             return True
         else:
+            print "i can't go right"
             maze.turn_right()
             return False
 
@@ -146,20 +152,19 @@ def maze_controller(maze):
             if maze.found():
                 return maze.found()
             if check_right_side():
-                maze.turn_right()
-            if check_left_side():
-                maze.turn_left()
-            maze.go()
+                print ''
+            #if check_left_side():
+                #print ''
         while not (maze.go()):
-            # print 'i am stuck'
+            print 'i am stuck'
             if check_left_side():
-                # print 'i turned left'
-                maze.turn_right()
+                print ''
+                #maze.turn_right()
             elif check_right_side():
-                # print 'i turned right'
-                maze.turn_left()
+                print ''
+                #maze.turn_left()
             else:
-                # print 'i turned around'
+                print 'i turned around'
                 maze.turn_left()
                 maze.turn_left()
     return maze.found()
@@ -169,4 +174,4 @@ print maze_controller(maze1), 1
 print maze_controller(maze2), 2
 print maze_controller(maze3), 3
 print maze_controller(maze4), 4
-# print maze_controller(maze5), 5
+#print maze_controller(maze5), 5
