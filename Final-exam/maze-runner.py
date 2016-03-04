@@ -155,6 +155,18 @@ def maze_controller(maze):
             maze.turn_right()
             return False
 
+    def backward_step():
+
+        """
+        make one backward step
+        """
+        print 'a step backward'
+        maze.turn_left()
+        maze.turn_left()
+        maze.go()
+        maze.turn_left()
+        maze.turn_right()
+
     def fork():
 
         """
@@ -201,18 +213,20 @@ def maze_controller(maze):
                 return maze.found()
             distance_right += 1
         print 'right corridor is', distance_right, 'fields long!'
+        d_r = distance_right
+        maze.turn_right()
+        maze.turn_right()
+        while d_r != 1:
+            maze.go()
+            d_r -= 1
+        maze.turn_left()
+        print "on a start postion..."
+
         if distance_left > distance_right:
             print 'i choose left corridor!'
             maze.turn_right()
         else:
             print 'i choose right corridor!'
-            d_r = distance_right
-            maze.turn_right()
-            maze.turn_right()
-            while d_r != 1:
-                maze.go()
-                d_r -= 1
-            maze.turn_right()
             maze.turn_left()
 
 
@@ -235,6 +249,9 @@ def maze_controller(maze):
                 #print ''
         while not (maze.go()):
             print 'i am stuck'
+            #print 'is this a fork?'
+            #if fork():
+                #choose_longer_corridor()
             if check_left_side():
                 print ''
                 maze.turn_right()
@@ -245,11 +262,13 @@ def maze_controller(maze):
                 print 'i turned around'
                 maze.turn_left()
                 maze.turn_left()
+    backward_step()
     return maze.found()
 
-
+"""
 print maze_controller(maze1), 1
 print maze_controller(maze2), 2
 print maze_controller(maze3), 3
 print maze_controller(maze4), 4
-#print maze_controller(maze5), 5
+"""
+print maze_controller(maze5), 5
