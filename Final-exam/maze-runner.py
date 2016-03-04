@@ -121,13 +121,18 @@ maze5 = MazeRunner([
 
 def maze_controller(maze):
 
-    # even if you only check side or ability to go, your runner do that in maze
+    # left and right sides in MazeRunner class are inverted so it is a little bit confusing :)
+    # but my functions in controller named right, so if you checked right side and wanna go there
+    # you should turn.left() and backwards for the other side.
 
     def check_left_side():
         maze.turn_right()
         print 'checked left side'
         if maze.go():
-            #maze.turn_left()
+            maze.turn_right()
+            maze.turn_right()
+            maze.go()
+            maze.turn_right()
             #print 'i can go left'
             return True
         else:
@@ -139,7 +144,10 @@ def maze_controller(maze):
         maze.turn_left()
         print 'checked right side'
         if maze.go():
-            #maze.turn_right()
+            maze.turn_right()
+            maze.turn_right()
+            maze.go()
+            maze.turn_left()
             #print 'i can go right'
             return True
         else:
@@ -154,19 +162,16 @@ def maze_controller(maze):
         """
 
         if check_left_side():
-            maze.turn_right()
-            maze.turn_right()
-            maze.go()
-            maze.turn_left()
             if check_right_side():
-                maze.turn_right()
-                maze.turn_right()
-                maze.go()
-                maze.turn_right()
-                return True
                 print 'Hmm so this is a fork...'
+                return True
             else:
+                print 'It is not a fork'
                 return False
+        else:
+            print 'It is not a fork'
+            return False
+
 
     def choose_longer_corridor():
 
@@ -177,6 +182,8 @@ def maze_controller(maze):
         distance_left = 1
         maze.turn_right()
         while maze.go():
+            if maze.found():
+                return maze.found()
             distance_left += 1
         print 'left corridor is', distance_left, 'fields long!'
         d_l = distance_left
@@ -190,6 +197,8 @@ def maze_controller(maze):
         distance_right = 1
         maze.turn_left()
         while maze.go():
+            if maze.found():
+                return maze.found()
             distance_right += 1
         print 'right corridor is', distance_right, 'fields long!'
         if distance_left > distance_right:
@@ -217,6 +226,7 @@ def maze_controller(maze):
         while maze.go():
             if maze.found():
                 return maze.found()
+            print 'is this a fork?'
             if fork():
                 choose_longer_corridor()
             #if check_left_side():
@@ -227,10 +237,10 @@ def maze_controller(maze):
             print 'i am stuck'
             if check_left_side():
                 print ''
-                #maze.turn_right()
+                maze.turn_right()
             elif check_right_side():
                 print ''
-                #maze.turn_left()
+                maze.turn_left()
             else:
                 print 'i turned around'
                 maze.turn_left()
@@ -241,5 +251,5 @@ def maze_controller(maze):
 print maze_controller(maze1), 1
 print maze_controller(maze2), 2
 print maze_controller(maze3), 3
-#print maze_controller(maze4), 4
+print maze_controller(maze4), 4
 #print maze_controller(maze5), 5
