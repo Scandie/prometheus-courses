@@ -1,3 +1,4 @@
+
 def print_maze(maze, x, y):
     for i in range(len(maze)):
         s = ''
@@ -30,7 +31,7 @@ class MazeRunner(object):
             return False
         self.__x = x
         self.__y = y
-        print 'i am going in that direction'
+        #print 'i am going in that direction'
         print_maze(self.__maze, self.__x, self.__y)
         return True
 
@@ -56,6 +57,7 @@ class MazeRunner(object):
 
     def found(self):
         return self.__x == self.__finish[0] and self.__y == self.__finish[1]
+
 
 maze1 = MazeRunner([
     [0, 1, 0, 0, 0],
@@ -118,9 +120,27 @@ maze5 = MazeRunner([
     [0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0],
 ], (0, 5), (4, 5))
 
+maze6 = MazeRunner([
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0],
+    [0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0],
+    [0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+    [0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0],
+    [1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0],
+    [0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0],
+    [0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
+    [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0],
+    [0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+], (7, 0), (2, 7))
+
 
 def maze_controller(maze):
-
+    from random import randint
     # left and right sides in MazeRunner class are inverted so it is a little bit confusing :)
     # but my functions in controller named right, so if you checked right side and wanna go there
     # you should turn.left() and backwards for the other side.
@@ -131,16 +151,16 @@ def maze_controller(maze):
         checking ability to go left
         """
         maze.turn_right()
-        print 'checked left side'
+        #print 'checked left side'
         if maze.go():
             maze.turn_right()
             maze.turn_right()
             maze.go()
             maze.turn_right()
-            #print 'i can go left'
+            # print 'i can go left'
             return True
         else:
-            print "i can't go left"
+            #print "i can't go left"
             maze.turn_left()
             return False
 
@@ -150,16 +170,16 @@ def maze_controller(maze):
         checking ability to go right
         """
         maze.turn_left()
-        print 'checked right side'
+        #print 'checked right side'
         if maze.go():
             maze.turn_right()
             maze.turn_right()
             maze.go()
             maze.turn_left()
-            #print 'i can go right'
+            # print 'i can go right'
             return True
         else:
-            print "i can't go right"
+            #print "i can't go right"
             maze.turn_right()
             return False
 
@@ -168,7 +188,7 @@ def maze_controller(maze):
         """
         make one backward step
         """
-        print 'a step backward'
+        #print 'a step backward'
         maze.turn_left()
         maze.turn_left()
         if maze.found():
@@ -177,107 +197,68 @@ def maze_controller(maze):
         maze.turn_left()
         maze.turn_left()
 
-    def fork():
-
-        """
-        Checking ability to go right and left at the same time
-        """
-
-        if check_left_side():
-            if check_right_side():
-                print 'Hmm so this is a fork...'
-                return True
-            else:
-                print 'It is not a fork'
-                return False
-        else:
-            print 'It is not a fork'
-            return False
-
-
-    def choose_longer_corridor():
-
-        """
-        choose longer corridors between left and right
-        """
-        print 'I am choosing my corridor'
-        distance_left = 1
-        maze.turn_right()
-        while maze.go():
-            distance_left += 1
-            print 'checking left corridor length...'
-            if maze.go():
-                if maze.found():
-                    return maze.found()
-                backward_step()
-        print "can't go any further, there is a wall!"
-        print 'left corridor is', distance_left, 'fields long!'
-        d_l = distance_left
-        maze.turn_right()
-        maze.turn_right()
-        while d_l != 1:
-            maze.go()
-            d_l -= 1
-        maze.turn_right()
-
-        distance_right = 1
-        maze.turn_left()
-        while maze.go():
-            distance_right += 1
-            print 'checking right corridor length...'
-            if maze.go():
-                if maze.found():
-                    return maze.found()
-                backward_step()
-        print "can't go any further, there is a wall!"
-        print 'right corridor is', distance_right, 'fields long!'
-        d_r = distance_right
-        maze.turn_right()
-        maze.turn_right()
-        while d_r != 1:
-            maze.go()
-            d_r -= 1
-        maze.turn_left()
-
-        print "on a start position..."
-
-        if distance_left >= distance_right:
-            print 'i choose left corridor!'
-            maze.turn_right()
-        else:
-            print 'i choose right corridor!'
-            maze.turn_left()
-
     while not maze.found():
+
         while maze.go():
             backward_step()
             if maze.found():
                 return maze.found()
             maze.go()
-            print 'is this a fork?'
-            if fork():
-                choose_longer_corridor()
+            rand = randint(1, 3)
+            #print 'is this a fork?'
+            if check_right_side():
+                if check_left_side():
+
+                    if rand == 1:
+                        maze.turn_left()
+                        #while maze.go():
+                            #maze.go()
+                    elif rand == 2:
+                        maze.turn_right()
+                        #while maze.go():
+                            #maze.go()
+                    elif rand == 3:
+                        while maze.go():
+                            maze.go()
+            #if check_left_side():
+                rand = randint(1, 2)
+                if rand == 1:
+                    maze.turn_left()
+                    #while maze.go():
+                         #maze.go()
+                else:
+                     maze.go()
+            #if check_right_side():
+                rand = randint(1, 2)
+                if rand == 1:
+                    maze.turn_right()
+                    #while maze.go():
+                         #maze.go()
+                else:
+
+                    maze.go()
+
+
         while not (maze.go()):
-            print 'i am stuck'
+            #print 'i am stuck'
             if check_left_side():
-                print ''
                 maze.turn_right()
                 break
             elif check_right_side():
-                print ''
                 maze.turn_left()
                 break
             else:
-                print 'i turned around'
+                #print 'i turned around'
                 maze.turn_left()
                 maze.turn_left()
                 break
+        #maze.go()
     return maze.found()
 
-"""
+
 print maze_controller(maze1), 1
 print maze_controller(maze2), 2
 print maze_controller(maze3), 3
 print maze_controller(maze4), 4
-"""
 print maze_controller(maze5), 5
+print maze_controller(maze6), 6
