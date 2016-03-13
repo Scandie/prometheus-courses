@@ -1,3 +1,5 @@
+import time
+
 
 def print_maze(maze, x, y):
     for i in range(len(maze)):
@@ -139,6 +141,18 @@ maze6 = MazeRunner([
 ], (7, 0), (2, 7))
 
 
+def timer(func):
+
+    def timer_wrapper(*args, **kwargs):
+        t = time.time()
+        result = func(*args, **kwargs)
+        print 'time wasted %f' % (time.time() - t)
+        return result
+
+    return timer_wrapper
+
+
+@timer
 def maze_controller(maze):
     from random import randint
     # left and right sides in MazeRunner class are inverted so it is a little bit confusing :)
@@ -211,12 +225,8 @@ def maze_controller(maze):
 
                     if rand == 1:
                         maze.turn_left()
-                        #while maze.go():
-                            #maze.go()
                     elif rand == 2:
                         maze.turn_right()
-                        #while maze.go():
-                            #maze.go()
                     elif rand == 3:
                         while maze.go():
                             maze.go()
@@ -228,16 +238,6 @@ def maze_controller(maze):
                          #maze.go()
                 else:
                      maze.go()
-            #if check_right_side():
-                rand = randint(1, 2)
-                if rand == 1:
-                    maze.turn_right()
-                    #while maze.go():
-                         #maze.go()
-                else:
-
-                    maze.go()
-
 
         while not (maze.go()):
             #print 'i am stuck'
